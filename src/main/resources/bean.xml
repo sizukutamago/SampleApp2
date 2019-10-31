@@ -8,13 +8,22 @@
                             http://www.springframework.org/schema/context/spring-context.xsd">
     <context:property-placeholder location="classpath:bean.properties"/>
 
-    <bean id="bean1" class="com.sample.sample.MyBean">
-        <property name="message" value="${bean.message}"/>
+    <bean id="mybeanprops" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+                <bean class="com.sample.sample.MyPropertyEditorRegister"/>
+            </list>
+        </property>
     </bean>
 
-    <bean id="mybeanprops" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="location">
-            <value>classpath:bean.properties</value>
-        </property>
+    <bean id="bean1" class="com.sample.sample.MyBean">
+        <property name="message" value="${bean.message}"/>
+        <property name="date" value="${bean.date}"/>
+    </bean>
+
+    <bean id="beankeeper1" class="com.sample.sample.MyBeanKeeper">
+        <constructor-arg type="com.sample.sample.MyBean" name="myBean" ref="bean1"/>
+        <constructor-arg type="java.lang.String" name="from" value="${keeper.from}"/>
+        <constructor-arg type="java.lang.String" name="to" value="${keeper.to}"/>
     </bean>
 </beans>

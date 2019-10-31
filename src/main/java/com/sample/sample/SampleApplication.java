@@ -16,18 +16,14 @@ import java.util.Properties;
 @SpringBootApplication
 public class SampleApplication {
     private static ApplicationContext app;
-    private static Properties mybeanProps;
 
     public static void main(String[] args) {
         app = new ClassPathXmlApplicationContext("classpath:bean.xml");
 
         MyBean bean = (MyBean) app.getBean("bean1");
-        mybeanProps = (Properties) app.getBean("mybeanprops");
 
-        String from = mybeanProps.getProperty("keeper.from");
-        String to = mybeanProps.getProperty("keeper.to");
 
-        MyBeanKeeper keeper = new MyBeanKeeper(bean, from, to);
+        MyBeanKeeper keeper = (MyBeanKeeper) app.getBean("beankeeper1");
         System.out.println(keeper);
 
 //        app = new StaticApplicationContext();
